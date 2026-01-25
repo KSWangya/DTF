@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>岡山大埕代天府 | 官方網站</title>
+    <!-- 引入字體 -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@300;500&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- 紋理遮罩 (讓全站有紙張質感)測 -->
+    <div class="paper-texture"></div>
+
+    <!-- 導航 -->
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="logo">
+                <span class="seal">代天</span>
+                <span class="text">岡山大埕代天府</span>
+            </a>
+            <div class="menu-btn" id="menuBtn">
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="menu" id="menu">
+                <li><a href="#about">沿革</a></li>
+                <li><a href="#gods">聖像</a></li>
+                <li><a href="#services">服務</a></li>
+                <li><a href="#location">參拜</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 主視覺 (Hero) -->
+    <header class="hero">
+        <div class="hero-bg">
+            <!-- 替換為大氣的廟宇屋頂/香火圖片 -->
+            <img src="images/hero-bg.png" alt="Temple Background">
+        </div>
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+            <div class="vertical-group fade-in">
+                <h2 class="hero-sub">護國佑民</h2>
+                <h1 class="hero-title">代天巡狩</h1>
+            </div>
+            <div class="hero-info fade-in delay-1">
+                <p>岡山大埕代天府</p>
+                <div class="line"></div>
+                <p>GANGSHAN DACHENG TEMPLE</p>
+            </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <span>SCROLL</span>
+            <div class="line"></div>
+        </div>
+    </header>
+
+    <!-- 關於 (錯位排版風格) -->
+    <section id="about" class="section about-section">
+        <div class="container relative">
+            <!-- 裝飾大字 -->
+            <div class="bg-text-deco">信仰</div>
+
+            <div class="about-layout">
+                <div class="about-img reveal-img">
+                    <img src="images/about-img.png" alt="Temple Detail">
+                </div>
+                <div class="about-text fade-in">
+                    <h3 class="section-title">百年香火<br>傳承不息</h3>
+                    <p class="desc">
+                        自清朝年間先民渡海來台，攜帶香火護身，
+                        至一九三〇年地方仕紳集資建廟。<br><br>
+                        岡山大埕代天府不僅是信仰的中心，
+                        更是凝聚鄉里情感的所在。
+                        這裡的一磚一瓦，都訴說著守護與感恩的故事。
+                    </p>
+                    <div class="year-badges">
+                        <span class="badge">1930 建廟</span>
+                        <span class="badge">1995 擴建</span>
+                        <span class="badge">2026 數位化</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 聖像殿堂 (橫向卷軸風格) -->
+    <section id="gods" class="section gods-section">
+        <div class="container">
+            <div class="header-group center fade-in">
+                <h3 class="section-title">本府聖像</h3>
+                <p class="sub-title">莊嚴殊勝 • 神威顯赫</p>
+            </div>
+
+            <div class="gods-grid">
+                <!-- 王爺 -->
+                <div class="god-card fade-up">
+                    <div class="card-inner">
+                        <div class="card-img">
+                            <!-- 莊嚴的東方神像/雕塑 -->
+                            <img src="https://images.unsplash.com/photo-1605638388484-9ba44770284f?q=80&w=800&auto=format&fit=crop"
+                                alt="五府千歲">
+                        </div>
+                        <div class="card-content">
+                            <div class="god-name">五府千歲</div>
+                            <div class="god-role">鎮殿主神</div>
+                            <p>代天巡狩，燮理陰陽。<br>掃除瘟疫，保佑合境平安。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 觀音 -->
+                <div class="god-card fade-up delay-1">
+                    <div class="card-inner">
+                        <div class="card-img">
+                            <!-- 柔和的佛像 -->
+                            <img src="https://images.unsplash.com/photo-1563212818-e89a424e937d?q=80&w=800&auto=format&fit=crop"
+                                alt="觀音佛祖">
+                        </div>
+                        <div class="card-content">
+                            <div class="god-name">觀音佛祖</div>
+                            <div class="god-role">慈悲救苦</div>
+                            <p>聞聲救苦，普渡眾生。<br>賜予信眾智慧與心靈平靜。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 土地公 -->
+                <div class="god-card fade-up delay-2">
+                    <div class="card-inner">
+                        <div class="card-img">
+                            <!-- 帶有金色/財富意象的雕塑 -->
+                            <img src="https://images.unsplash.com/photo-1578665031174-2795329c29d5?q=80&w=800&auto=format&fit=crop"
+                                alt="福德正神">
+                        </div>
+                        <div class="card-content">
+                            <div class="god-name">福德正神</div>
+                            <div class="god-role">地方守護</div>
+                            <p>掌管土地，招財進寶。<br>保佑五穀豐登，生意興隆。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 服務 (圖騰風格) -->
+    <section id="services" class="section services-section">
+        <div class="container">
+            <div class="services-row">
+                <div class="service-box fade-in">
+                    <div class="icon-circle"><i class="fas fa-fire-alt"></i></div>
+                    <h4>安燈祈福</h4>
+                    <p>光明燈、太歲燈、財利燈</p>
+                </div>
+                <div class="service-box fade-in delay-1">
+                    <div class="icon-circle"><i class="fas fa-hand-holding-heart"></i></div>
+                    <h4>慈善公益</h4>
+                    <p>急難救助、冬令救濟</p>
+                </div>
+                <div class="service-box fade-in delay-2">
+                    <div class="icon-circle"><i class="fas fa-scroll"></i></div>
+                    <h4>文昌祈願</h4>
+                    <p>考生祈福、金榜題名</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 交通地圖 -->
+    <section id="location" class="section map-section">
+        <div class="map-container reveal-img">
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3678.852431776587!2d120.2934443!3d22.7708552!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346e0e0a5b5b5b5b%3A0x0!2zODIw6auY6ZuE5biC5bKh5bGx5Y2A5bKh5bGx6LevMzIz5beoMTktMeiZnw!5e0!3m2!1szh-TW!2stw!4v1700000000000!5m2!1szh-TW!2stw"
+                allowfullscreen="" loading="lazy">
+            </iframe>
+
+            <div class="map-card fade-up">
+                <h3>蒞臨參拜</h3>
+                <p class="address"><i class="fas fa-map-marker-alt"></i> 高雄市岡山區岡山路323巷19-1號</p>
+                <p class="time"><i class="fas fa-clock"></i> 開放時間：06:00 - 21:00</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=岡山大埕代天府" target="_blank" class="map-btn">
+                    開啟導航
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 頁腳 -->
+    <footer>
+        <div class="container footer-flex">
+            <div class="footer-logo">
+                <h2>岡山大埕代天府</h2>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Gangshan Dacheng Dai-Tian Temple.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

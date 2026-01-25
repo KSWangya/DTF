@@ -1,0 +1,266 @@
+/* --- 1. 核心設定 --- */
+:root {
+    /* 色彩：新東方美學 */
+    --c-bg: #F5F0E6;       /* 米色宣紙底 */
+    --c-ink: #2B2B2B;      /* 墨黑 */
+    --c-red: #A83838;      /* 絳紅 (印泥色) */
+    --c-gold: #C5A065;     /* 沉金 */
+    --c-white: #FFFFFF;
+    
+    --font-serif: 'Noto Serif TC', serif;
+    --font-sans: 'Noto Sans TC', sans-serif;
+    
+    --ease: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: var(--c-bg);
+    color: var(--c-ink);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    line-height: 1.8;
+}
+
+/* 全站紙張紋理 */
+.paper-texture {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9999;
+    mix-blend-mode: multiply;
+}
+
+h1, h2, h3 { font-family: var(--font-serif); font-weight: 900; }
+a { text-decoration: none; color: inherit; transition: 0.3s; }
+img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.container { max-width: 1280px; margin: 0 auto; padding: 0 30px; }
+.section { padding: 100px 0; }
+
+/* --- 2. 導航 (浮動式) --- */
+nav {
+    position: fixed; top: 0; left: 0; width: 100%;
+    padding: 20px 0; z-index: 100; transition: 0.4s;
+}
+nav.scrolled { background: rgba(245, 240, 230, 0.95); box-shadow: 0 5px 20px rgba(0,0,0,0.05); padding: 10px 0; }
+
+.nav-wrapper {
+    display: flex; justify-content: space-between; align-items: center;
+    max-width: 1360px; margin: 0 auto; padding: 0 30px;
+}
+
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo .seal {
+    width: 36px; height: 36px; background: var(--c-red); color: white;
+    font-family: var(--font-serif); font-weight: bold; font-size: 0.8rem;
+    display: flex; justify-content: center; align-items: center; border-radius: 4px;
+}
+.logo .text { font-family: var(--font-serif); font-weight: 900; font-size: 1.2rem; color: var(--c-ink); }
+
+.menu { display: flex; gap: 40px; }
+.menu a { font-weight: 500; font-size: 0.95rem; letter-spacing: 1px; position: relative; }
+.menu a::after {
+    content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 1px;
+    background: var(--c-red); transition: 0.3s;
+}
+.menu a:hover { color: var(--c-red); }
+.menu a:hover::after { width: 100%; }
+
+/* --- 3. 主視覺 (大氣風格) --- */
+.hero {
+    height: 100vh; position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+}
+.hero-bg {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;
+}
+.hero-bg img { animation: zoomOut 20s infinite alternate linear; }
+@keyframes zoomOut { from { transform: scale(1.1); } to { transform: scale(1); } }
+
+.hero-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;
+    background: linear-gradient(to bottom, rgba(43,43,43,0.3), rgba(43,43,43,0.1));
+}
+
+.hero-content {
+    position: relative; z-index: 10; display: flex; gap: 40px; align-items: center;
+}
+/* 直排文字 */
+.vertical-group {
+    writing-mode: vertical-rl; text-orientation: mixed;
+    display: flex; gap: 15px; align-items: flex-start;
+}
+.hero-title {
+    font-size: clamp(3rem, 8vw, 6rem); color: white; letter-spacing: 10px;
+    text-shadow: 0 10px 30px rgba(0,0,0,0.5); margin: 0;
+}
+.hero-sub {
+    font-size: clamp(1rem, 2vw, 1.5rem); color: var(--c-gold); letter-spacing: 5px;
+    margin-top: 20px; font-weight: 500;
+}
+
+.hero-info {
+    writing-mode: vertical-rl; color: rgba(255,255,255,0.8);
+    font-size: 0.9rem; letter-spacing: 2px; border-right: 1px solid rgba(255,255,255,0.3);
+    padding-right: 20px; height: 200px; display: flex; justify-content: space-between;
+}
+
+.scroll-indicator {
+    position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+    z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 10px;
+    color: white; font-size: 0.8rem; letter-spacing: 2px;
+}
+.scroll-indicator .line { width: 1px; height: 50px; background: white; animation: scrollDown 2s infinite; }
+@keyframes scrollDown { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform: scaleY(1); transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+
+/* --- 4. 關於本府 (錯位排版) --- */
+.relative { position: relative; }
+.bg-text-deco {
+    position: absolute; top: -50px; left: -50px;
+    font-size: 15vw; color: rgba(0,0,0,0.03); font-weight: 900;
+    font-family: var(--font-serif); z-index: 0; pointer-events: none;
+}
+
+.about-layout {
+    display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: center;
+    position: relative; z-index: 1;
+}
+
+.about-img {
+    height: 500px; border-radius: 4px; overflow: hidden;
+    box-shadow: 20px 20px 0 var(--c-gold); /* 特色陰影 */
+}
+
+.about-text .section-title { font-size: 2.5rem; margin-bottom: 30px; line-height: 1.3; }
+.about-text .desc { color: #555; margin-bottom: 30px; font-size: 1.05rem; }
+
+.year-badges { display: flex; gap: 15px; flex-wrap: wrap; }
+.badge {
+    padding: 8px 16px; border: 1px solid var(--c-ink); border-radius: 50px;
+    font-size: 0.9rem; font-weight: 500; transition: 0.3s;
+}
+.badge:hover { background: var(--c-red); border-color: var(--c-red); color: white; }
+
+/* --- 5. 聖像殿堂 (特色卡片) --- */
+.gods-section { background: #EBE6DC; /* 稍微深一點的紙色 */ }
+.header-group { text-align: center; margin-bottom: 60px; }
+.sub-title { color: var(--c-red); letter-spacing: 3px; font-weight: bold; margin-top: 10px; }
+
+.gods-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;
+}
+
+.god-card {
+    position: relative; padding-top: 20px;
+}
+/* 卡片外框設計 */
+.card-inner {
+    background: var(--c-white); padding: 20px;
+    border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: 0.4s var(--ease);
+}
+.god-card:hover .card-inner { transform: translateY(-15px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+
+.card-img { height: 300px; margin-bottom: 20px; overflow: hidden; }
+.card-img img { transition: 0.5s; filter: grayscale(20%); }
+.god-card:hover .card-img img { transform: scale(1.1); filter: grayscale(0%); }
+
+.card-content { text-align: center; }
+.god-name { font-size: 1.5rem; font-family: var(--font-serif); font-weight: bold; color: var(--c-ink); }
+.god-role { color: var(--c-red); font-size: 0.9rem; margin-bottom: 10px; font-weight: bold; }
+.card-content p { font-size: 0.9rem; color: #666; line-height: 1.6; }
+
+/* --- 6. 服務項目 --- */
+.services-row {
+    display: flex; justify-content: space-around; flex-wrap: wrap; gap: 30px;
+    border-top: 1px solid rgba(0,0,0,0.1); border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding: 60px 0;
+}
+.service-box { text-align: center; width: 250px; transition: 0.3s; padding: 20px; border-radius: 8px; }
+.service-box:hover { background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+
+.icon-circle {
+    width: 60px; height: 60px; margin: 0 auto 20px;
+    background: var(--c-ink); color: var(--c-gold);
+    border-radius: 50%; display: flex; justify-content: center; align-items: center;
+    font-size: 1.5rem; transition: 0.3s;
+}
+.service-box:hover .icon-circle { background: var(--c-red); color: white; transform: rotate(360deg); }
+.service-box h4 { font-size: 1.2rem; margin-bottom: 10px; }
+
+/* --- 7. 地圖 (覆蓋式) --- */
+.map-container { position: relative; height: 500px; width: 100%; }
+.map-container iframe { width: 100%; height: 100%; border: 0; filter: grayscale(50%) contrast(90%); }
+
+.map-card {
+    position: absolute; bottom: 50px; left: 50px;
+    background: var(--c-white); padding: 40px;
+    max-width: 350px; box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+    border-left: 5px solid var(--c-red);
+}
+.map-card h3 { font-size: 1.5rem; margin-bottom: 20px; }
+.map-card p { margin-bottom: 10px; display: flex; gap: 10px; align-items: flex-start; }
+.map-card i { color: var(--c-red); margin-top: 5px; }
+
+.map-btn {
+    display: block; text-align: center; background: var(--c-ink); color: white;
+    padding: 12px; margin-top: 20px; font-weight: 500; transition: 0.3s;
+}
+.map-btn:hover { background: var(--c-red); }
+
+/* --- 8. 頁腳 --- */
+footer { background: var(--c-ink); color: #888; padding: 40px 0; text-align: center; }
+.footer-logo h2 { color: white; margin-bottom: 10px; font-size: 1.5rem; }
+.copyright { font-size: 0.85rem; border-top: 1px solid #444; padding-top: 20px; margin-top: 20px; display: inline-block; width: 80%; }
+
+/* --- 動畫類別 --- */
+.fade-in { opacity: 0; transition: opacity 1s ease; }
+.fade-in.visible { opacity: 1; }
+
+.fade-up { opacity: 0; transform: translateY(40px); transition: 0.8s var(--ease); }
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+
+.reveal-img { clip-path: inset(0 100% 0 0); transition: 1.2s var(--ease); }
+.reveal-img.visible { clip-path: inset(0 0 0 0); }
+
+.delay-1 { transition-delay: 0.2s; }
+.delay-2 { transition-delay: 0.4s; }
+
+/* --- RWD --- */
+@media (max-width: 768px) {
+    .menu {
+        position: fixed; top: 0; right: -100%; width: 70%; height: 100vh;
+        background: var(--c-bg); flex-direction: column; padding: 80px 40px;
+        transition: 0.4s; box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+    }
+    .menu.active { right: 0; }
+    
+    .menu-btn { display: block; width: 30px; height: 20px; position: relative; z-index: 200; cursor: pointer; }
+    .menu-btn span { position: absolute; width: 100%; height: 2px; background: var(--c-ink); transition: 0.3s; }
+    .menu-btn span:first-child { top: 0; }
+    .menu-btn span:last-child { bottom: 0; }
+    .menu-btn.active span:first-child { transform: rotate(45deg); top: 9px; }
+    .menu-btn.active span:last-child { transform: rotate(-45deg); bottom: 9px; }
+
+    /* Hero */
+    .hero-content { flex-direction: column; gap: 20px; }
+    .vertical-group { writing-mode: horizontal-tb; flex-direction: column; align-items: center; text-align: center; }
+    .hero-title { font-size: 3rem; letter-spacing: 5px; }
+    .hero-sub { font-size: 1.2rem; }
+    .hero-info { writing-mode: horizontal-tb; height: auto; border: none; padding: 0; gap: 10px; font-size: 0.8rem; }
+    .hero-info .line { width: 30px; height: 1px; margin: 0 auto; }
+
+    /* About */
+    .about-layout { grid-template-columns: 1fr; }
+    .about-img { height: 300px; box-shadow: 10px 10px 0 var(--c-gold); }
+    .bg-text-deco { font-size: 25vw; left: 0; }
+
+    /* Gods */
+    .gods-grid { grid-template-columns: 1fr; }
+    
+    /* Map */
+    .map-container { height: auto; display: flex; flex-direction: column-reverse; }
+    .map-container iframe { height: 300px; }
+    .map-card { position: relative; bottom: 0; left: 0; max-width: 100%; border-left: none; border-top: 5px solid var(--c-red); }
+}
