@@ -4,12 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="岡山大埕代天府 - 百年香火傳承，護國佑民。提供安燈祈福、慈善公益、文昌祈願等服務。">
+    <meta name="keywords" content="岡山代天府, 代天府, 五府千歲, 廟宇, 高雄廟宇, 岡山, 台灣廟宇">
     <title>岡山大埕代天府 | 官方網站</title>
     <!-- 引入字體 -->
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@300;500&display=swap"
         rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/b558d2b0f1.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -17,6 +19,9 @@
 
     <!-- 紋理遮罩 (讓全站有紙張質感) -->
     <div class="paper-texture"></div>
+
+    <!-- 飄動的香火粒子效果 -->
+    <canvas id="incenseParticles"></canvas>
 
     <!-- 導航 -->
     <nav>
@@ -32,6 +37,9 @@
             <ul class="menu" id="menu">
                 <li><a href="#about">沿革</a></li>
                 <li><a href="#gods">聖像</a></li>
+                <li><a href="#events">慶典</a></li>
+                <li><a href="#gallery">影像</a></li>
+                <li><a href="#news">消息</a></li>
                 <li><a href="#services">服務</a></li>
                 <li><a href="#location">參拜</a></li>
             </ul>
@@ -41,10 +49,16 @@
     <!-- 主視覺 (Hero) -->
     <header class="hero">
         <div class="hero-bg">
-            <!-- 替換為大氣的廟宇屋頂/香火圖片 -->
-            <img src="images/hero-bg.png" alt="Temple Background">
+            <img src="images/hero-bg-new.png" alt="Temple Background">
         </div>
         <div class="hero-overlay"></div>
+
+        <!-- 浮動雲朵裝飾 -->
+        <div class="floating-clouds">
+            <div class="cloud cloud-1"></div>
+            <div class="cloud cloud-2"></div>
+            <div class="cloud cloud-3"></div>
+        </div>
 
         <div class="hero-content">
             <div class="vertical-group fade-in">
@@ -72,7 +86,7 @@
 
             <div class="about-layout">
                 <div class="about-img reveal-img">
-                    <img src="images/about-img.png" alt="Temple Detail">
+                    <img src="images/temple-interior.png" alt="Temple Detail">
                 </div>
                 <div class="about-text fade-in">
                     <h3 class="section-title">百年香火<br>傳承不息</h3>
@@ -106,9 +120,7 @@
                 <div class="god-card fade-up">
                     <div class="card-inner">
                         <div class="card-img">
-                            <!-- 莊嚴的東方神像/雕塑 -->
-                            <img src="https://images.unsplash.com/photo-1605638388484-9ba44770284f?q=80&w=800&auto=format&fit=crop"
-                                alt="五府千歲">
+                            <img src="images/god-wangye.png" alt="五府千歲">
                         </div>
                         <div class="card-content">
                             <div class="god-name">五府千歲</div>
@@ -122,9 +134,7 @@
                 <div class="god-card fade-up delay-1">
                     <div class="card-inner">
                         <div class="card-img">
-                            <!-- 柔和的佛像 -->
-                            <img src="https://images.unsplash.com/photo-1563212818-e89a424e937d?q=80&w=800&auto=format&fit=crop"
-                                alt="觀音佛祖">
+                            <img src="images/god-guanyin.png" alt="觀音佛祖">
                         </div>
                         <div class="card-content">
                             <div class="god-name">觀音佛祖</div>
@@ -138,9 +148,7 @@
                 <div class="god-card fade-up delay-2">
                     <div class="card-inner">
                         <div class="card-img">
-                            <!-- 帶有金色/財富意象的雕塑 -->
-                            <img src="https://images.unsplash.com/photo-1578665031174-2795329c29d5?q=80&w=800&auto=format&fit=crop"
-                                alt="福德正神">
+                            <img src="images/god-tudi.png" alt="福德正神">
                         </div>
                         <div class="card-content">
                             <div class="god-name">福德正神</div>
@@ -149,63 +157,401 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- 媽祖 -->
+                <div class="god-card fade-up">
+                    <div class="card-inner">
+                        <div class="card-img">
+                            <img src="images/god-mazu.png" alt="天上聖母">
+                        </div>
+                        <div class="card-content">
+                            <div class="god-name">天上聖母</div>
+                            <div class="god-role">海上守護</div>
+                            <p>庇佑航海，救苦救難。<br>慈悲為懷，威靈顯赫。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 註生娘娘 -->
+                <div class="god-card fade-up delay-1">
+                    <div class="card-inner">
+                        <div class="card-img">
+                            <img src="images/god-zhusheng.png" alt="註生娘娘">
+                        </div>
+                        <div class="card-content">
+                            <div class="god-name">註生娘娘</div>
+                            <div class="god-role">生育守護</div>
+                            <p>賜子送福，庇佑孕婦。<br>護佑孩童，平安成長。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 文昌帝君 -->
+                <div class="god-card fade-up delay-2">
+                    <div class="card-inner">
+                        <div class="card-img">
+                            <img src="images/god-wenchang.png" alt="文昌帝君">
+                        </div>
+                        <div class="card-content">
+                            <div class="god-name">文昌帝君</div>
+                            <div class="god-role">功名學業</div>
+                            <p>掌管文運，庇佑考生。<br>金榜題名，學業有成。</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- 服務 (圖騰風格) -->
+    <!-- 慶典活動 (新增) -->
+    <section id="events" class="section events-section">
+        <div class="container">
+            <div class="header-group center fade-in">
+                <h3 class="section-title">年度慶典</h3>
+                <p class="sub-title">傳統民俗 • 盛大隆重</p>
+            </div>
+
+            <div class="events-timeline">
+                <div class="timeline-line"></div>
+
+                <div class="event-item fade-up">
+                    <div class="event-date">
+                        <span class="month">正月</span>
+                        <span class="day">15</span>
+                    </div>
+                    <div class="event-content">
+                        <div class="event-img">
+                            <img src="images/blessing-lanterns.png" alt="元宵祈福">
+                        </div>
+                        <h4>元宵祈福大典</h4>
+                        <p>上元節點燈祈安，光明燈、太歲燈開放登記，為信眾消災納福。</p>
+                    </div>
+                </div>
+
+                <div class="event-item fade-up delay-1">
+                    <div class="event-date">
+                        <span class="month">四月</span>
+                        <span class="day">26</span>
+                    </div>
+                    <div class="event-content">
+                        <div class="event-img">
+                            <img src="images/festival-parade.png" alt="王爺聖誕">
+                        </div>
+                        <h4>五府千歲聖誕繞境</h4>
+                        <p>盛大遶境出巡，神轎鑾駕、陣頭表演、信眾虔誠隨香，熱鬧非凡。</p>
+                    </div>
+                </div>
+
+                <div class="event-item fade-up delay-2">
+                    <div class="event-date">
+                        <span class="month">七月</span>
+                        <span class="day">15</span>
+                    </div>
+                    <div class="event-content">
+                        <div class="event-img">
+                            <img src="images/prayer-ceremony.png" alt="中元普渡">
+                        </div>
+                        <h4>中元普渡法會</h4>
+                        <p>盂蘭盆會，超渡孤魂、祈求冥陽兩利，展現慈悲濟世精神。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 影像圖庫 (新增) -->
+    <section id="gallery" class="section gallery-section">
+        <div class="container">
+            <div class="header-group center fade-in">
+                <h3 class="section-title">廟宇光影</h3>
+                <p class="sub-title">記錄神聖 • 傳承美好</p>
+            </div>
+
+            <div class="gallery-grid">
+                <div class="gallery-item large">
+                    <img src="images/hero-bg-new.png" alt="廟宇全景">
+                    <div class="gallery-overlay">
+                        <span>廟宇全景</span>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/temple-interior.png" alt="殿內莊嚴">
+                    <div class="gallery-overlay">
+                        <span>殿內莊嚴</span>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/blessing-lanterns.png" alt="光明燈海">
+                    <div class="gallery-overlay">
+                        <span>光明燈海</span>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/festival-parade.png" alt="遶境盛況">
+                    <div class="gallery-overlay">
+                        <span>遶境盛況</span>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/prayer-ceremony.png" alt="虔誠祈願">
+                    <div class="gallery-overlay">
+                        <span>虔誠祈願</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 最新消息 (新增) -->
+    <section id="news" class="section news-section">
+        <div class="container">
+            <div class="header-group center fade-in">
+                <h3 class="section-title">最新消息</h3>
+                <p class="sub-title">即時動態 • 廟務公告</p>
+            </div>
+
+            <div class="news-grid">
+                <article class="news-card fade-up">
+                    <div class="news-date">
+                        <span class="day">25</span>
+                        <span class="month">一月</span>
+                    </div>
+                    <div class="news-content">
+                        <span class="news-tag">公告</span>
+                        <h4>乙巳年新春祈福活動開始報名</h4>
+                        <p>為迎接新春，本府將舉辦安太歲、點光明燈祈福活動，即日起開放線上登記...</p>
+                        <a href="#" class="read-more">閱讀更多 <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+
+                <article class="news-card fade-up delay-1">
+                    <div class="news-date">
+                        <span class="day">20</span>
+                        <span class="month">一月</span>
+                    </div>
+                    <div class="news-content">
+                        <span class="news-tag">活動</span>
+                        <h4>春節開放時間調整公告</h4>
+                        <p>農曆年初一至初五，本府開放時間調整為凌晨5時至晚間11時，歡迎信眾...</p>
+                        <a href="#" class="read-more">閱讀更多 <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+
+                <article class="news-card fade-up delay-2">
+                    <div class="news-date">
+                        <span class="day">15</span>
+                        <span class="month">一月</span>
+                    </div>
+                    <div class="news-content">
+                        <span class="news-tag">公益</span>
+                        <h4>冬令救濟物資發放圓滿完成</h4>
+                        <p>感謝各界善心人士捐助，本年度冬令救濟共發放500份物資予弱勢家庭...</p>
+                        <a href="#" class="read-more">閱讀更多 <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- 服務項目 (圖騰風格) -->
     <section id="services" class="section services-section">
         <div class="container">
+            <div class="header-group center fade-in">
+                <h3 class="section-title">祈福服務</h3>
+                <p class="sub-title">誠心祈願 • 神恩庇佑</p>
+            </div>
             <div class="services-row">
                 <div class="service-box fade-in">
                     <div class="icon-circle"><i class="fas fa-fire-alt"></i></div>
                     <h4>安燈祈福</h4>
-                    <p>光明燈、太歲燈、財利燈</p>
+                    <p>光明燈、太歲燈、財利燈<br>點亮希望，照耀前程</p>
+                    <span class="service-price">每盞 NT$600 起</span>
                 </div>
                 <div class="service-box fade-in delay-1">
                     <div class="icon-circle"><i class="fas fa-hand-holding-heart"></i></div>
                     <h4>慈善公益</h4>
-                    <p>急難救助、冬令救濟</p>
+                    <p>急難救助、冬令救濟<br>扶弱濟貧、廣結善緣</p>
+                    <span class="service-price">隨喜功德</span>
                 </div>
                 <div class="service-box fade-in delay-2">
                     <div class="icon-circle"><i class="fas fa-scroll"></i></div>
                     <h4>文昌祈願</h4>
-                    <p>考生祈福、金榜題名</p>
+                    <p>考生祈福、金榜題名<br>學業進步、智慧開啟</p>
+                    <span class="service-price">每位 NT$300</span>
+                </div>
+                <div class="service-box fade-in delay-3">
+                    <div class="icon-circle"><i class="fas fa-om"></i></div>
+                    <h4>制化解厄</h4>
+                    <p>安太歲、收驚、補運<br>消災解厄、逢凶化吉</p>
+                    <span class="service-price">NT$500 起</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 交通地圖 -->
-    <section id="location" class="section map-section">
-        <div class="map-container reveal-img">
-            <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3678.852431776587!2d120.2934443!3d22.7708552!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346e0e0a5b5b5b5b%3A0x0!2zODIw6auY6ZuE5biC5bKh5bGx5Y2A5bKh5bGx6LevMzIz5beoMTktMeiZnw!5e0!3m2!1szh-TW!2stw!4v1700000000000!5m2!1szh-TW!2stw"
-                allowfullscreen="" loading="lazy">
-            </iframe>
+    <!-- 影片展示區 (新增) -->
+    <section id="video" class="section video-section">
+        <div class="container">
+            <div class="header-group center fade-in">
+                <h3 class="section-title">廟宇巡禮</h3>
+                <p class="sub-title">沉浸體驗 • 感受神聖</p>
+            </div>
+            <div class="video-wrapper fade-up">
+                <div class="video-container">
+                    <img src="images/vo1.mp4" alt="廟宇影片封面" class="video-poster">
+                    <div class="video-overlay">
+                        <button class="play-btn" aria-label="播放影片">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <p class="video-caption">點擊觀看廟宇介紹影片</p>
+                    </div>
+                </div>
+                <div class="video-info">
+                    <h4>走進代天府</h4>
+                    <p>從晨曦中裊裊升起的香煙，到夕陽下金碧輝煌的廟殿，<br>感受百年古廟的莊嚴與溫暖，體驗傳統信仰的力量。</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            <div class="map-card fade-up">
-                <h3>蒞臨參拜</h3>
-                <p class="address"><i class="fas fa-map-marker-alt"></i> 高雄市岡山區岡山路323巷19-1號</p>
-                <p class="time"><i class="fas fa-clock"></i> 開放時間：06:00 - 21:00</p>
-                <a href="https://www.google.com/maps/search/?api=1&query=岡山大埕代天府" target="_blank" class="map-btn">
-                    開啟導航
-                </a>
+    <!-- 捐獻呼籲區 (新增) -->
+    <section id="donate" class="section donate-section">
+        <div class="donate-bg"></div>
+        <div class="container">
+            <div class="donate-content fade-up">
+                <div class="donate-icon">
+                    <i class="fas fa-hand-holding-heart"></i>
+                </div>
+                <h3>一份善念，無限福報</h3>
+                <p class="donate-desc">
+                    您的每一份捐獻，都將化為守護社區的力量。<br>
+                    無論是維護百年古廟的香火延續，或是幫助鄰里弱勢家庭，<br>
+                    <strong>您的善心，神明都看見。</strong>
+                </p>
+                <div class="donate-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">500+</span>
+                        <span class="stat-label">弱勢家庭受助</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">30+</span>
+                        <span class="stat-label">年急難救助</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">專款專用</span>
+                    </div>
+                </div>
+                <div class="donate-cta">
+                    <p class="cta-hook">「施比受更有福」— 讓愛心傳遞，讓福報回流</p>
+                    <a href="#" class="donate-btn">
+                        <i class="fas fa-heart"></i> 立即捐獻結善緣
+                    </a>
+                    <p class="donate-note">本府為政府立案宗教團體，捐款可申請節稅收據</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 交通地圖 (精簡版) -->
+    <section id="location" class="section location-section">
+        <div class="container">
+            <div class="location-grid">
+                <div class="location-info fade-up">
+                    <h3 class="section-title">蒞臨參拜</h3>
+                    <p class="sub-title">誠心邀請 • 虔誠來訪</p>
+                    
+                    <div class="info-list">
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+                            <div class="info-text">
+                                <strong>廟宇地址</strong>
+                                <p>高雄市岡山區岡山路323巷19-1號</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fas fa-clock"></i></div>
+                            <div class="info-text">
+                                <strong>開放時間</strong>
+                                <p>每日 06:00 - 21:00</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fas fa-phone"></i></div>
+                            <div class="info-text">
+                                <strong>聯絡電話</strong>
+                                <p>(07) 621-XXXX</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fas fa-car"></i></div>
+                            <div class="info-text">
+                                <strong>交通方式</strong>
+                                <p>國道1號岡山交流道下，約10分鐘車程</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="https://www.google.com/maps/search/?api=1&query=岡山大埕代天府" target="_blank" class="map-link-btn">
+                        <i class="fas fa-directions"></i> 開啟 Google 地圖導航
+                    </a>
+                </div>
+                
+                <div class="location-map fade-up delay-1">
+                    <div class="map-frame">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3678.852431776587!2d120.2934443!3d22.7708552!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346e0e0a5b5b5b5b%3A0x0!2zODIw6auY6ZuE5biC5bKh5bGx5Y2A5bKh5bGx6LevMzIz5beoMTktMeiZnw!5e0!3m2!1szh-TW!2stw!4v1700000000000!5m2!1szh-TW!2stw"
+                            allowfullscreen="" loading="lazy">
+                        </iframe>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- 頁腳 -->
     <footer>
-        <div class="container footer-flex">
-            <div class="footer-logo">
-                <h2>岡山大埕代天府</h2>
+        <div class="container footer-content">
+            <div class="footer-main">
+                <div class="footer-logo">
+                    <span class="seal-large">代天</span>
+                    <h2>岡山大埕代天府</h2>
+                    <p class="footer-desc">護國佑民 • 代天巡狩</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h4>快速連結</h4>
+                        <a href="#about">沿革簡介</a>
+                        <a href="#gods">本府聖像</a>
+                        <a href="#events">年度慶典</a>
+                        <a href="#services">祈福服務</a>
+                    </div>
+                    <div class="footer-col">
+                        <h4>聯絡資訊</h4>
+                        <p><i class="fas fa-map-marker-alt"></i> 高雄市岡山區岡山路323巷19-1號</p>
+                        <p><i class="fas fa-clock"></i> 06:00 - 21:00</p>
+                        <p><i class="fas fa-phone"></i> (07) 621-XXXX</p>
+                    </div>
+                    <div class="footer-col">
+                        <h4>社群連結</h4>
+                        <div class="social-links">
+                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" aria-label="LINE"><i class="fab fa-line"></i></a>
+                            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="copyright">
-                <p>&copy; 2026 Gangshan Dacheng Dai-Tian Temple.</p>
+                <p>&copy; 2026 Gangshan Dacheng Dai-Tian Temple. All Rights Reserved.</p>
             </div>
         </div>
     </footer>
+
+    <!-- 返回頂部按鈕 -->
+    <button id="backToTop" class="back-to-top" aria-label="返回頂部">
+        <i class="fas fa-chevron-up"></i>
+    </button>
 
     <script src="script.js"></script>
 </body>
