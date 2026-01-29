@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // 標記 JS 已載入，啟用動畫
+  document.body.classList.add("js-loaded");
   // 1. 手機漢堡選單
   const menuBtn = document.getElementById("menuBtn");
   const menu = document.getElementById("menu");
@@ -26,10 +28,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 3. 進階滾動動畫 Observer
+  // 3. 進階滾動動畫 Observer（手機優化版）
+  const isMobile = window.innerWidth <= 768;
+  
   const observerOptions = {
-    threshold: 0.1,
-    rootMargin: "0px 0px -80px 0px",
+    threshold: isMobile ? 0.05 : 0.1,  // 手機用更低門檻
+    rootMargin: isMobile ? "0px 0px 0px 0px" : "0px 0px -80px 0px",
   };
 
   const observer = new IntersectionObserver((entries) => {
@@ -43,7 +47,47 @@ document.addEventListener("DOMContentLoaded", () => {
   const animatedElements = document.querySelectorAll(
     ".fade-in, .fade-up, .reveal-img",
   );
-  animatedElements.forEach((el) => observer.observe(el));
+  
+  // 確保元素被觀察
+  animatedElements.forEach((el) => {
+    observer.observe(el);
+  });
+  
+  // 手機備用方案：如果元素已在視窗內，直接顯示
+  if (isMobile) {
+    setTimeout(() => {
+      animatedElements.forEach((el) => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          el.classList.add("visible");
+        }
+      });
+    }, 300);
+    
+    // 手機版額外的滾動監聽（備用方案）
+    let scrollTimeout;
+    window.addEventListener("scroll", () => {
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        animatedElements.forEach((el) => {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight * 1.1 && rect.bottom > 0) {
+            el.classList.add("visible");
+          }
+        });
+      }, 50);
+    }, { passive: true });
+    
+    // 觸控事件也觸發檢查
+    window.addEventListener("touchmove", () => {
+      animatedElements.forEach((el) => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          el.classList.add("visible");
+        }
+      });
+    }, { passive: true });
+  }
 
   // 4. 返回頂部按鈕
   const backToTopBtn = document.getElementById("backToTop");
@@ -62,6 +106,24 @@ document.addEventListener("DOMContentLoaded", () => {
       behavior: "smooth",
     });
   });
+
+  // 5. 影片自動播放支援（確保在進入視窗時播放）
+  const video = document.getElementById("templeVideo");
+  
+  if (video) {
+    // 確保影片在可見時播放
+    const videoObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {
+            // 自動播放被阻止時的處理（靜默失敗）
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+    
+    videoObserver.observe(video);
+  }
 
   // 5. 香火粒子效果
   const canvas = document.getElementById("incenseParticles");

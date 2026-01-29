@@ -405,11 +405,19 @@ nav.scrolled {
 }
 
 .about-img {
+  width: 100%;
   height: 550px;
   border-radius: 4px;
   overflow: hidden;
   box-shadow: 25px 25px 0 var(--c-gold);
   transition: box-shadow 0.4s ease;
+}
+
+.about-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .about-img:hover {
@@ -955,12 +963,24 @@ nav.scrolled {
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
 }
 
-.video-poster {
+.video-container video {
   width: 100%;
   height: auto;
   display: block;
   aspect-ratio: 16 / 9;
   object-fit: cover;
+  background: #000;
+}
+
+/* 影片播放中的狀態 */
+.video-container.playing .video-overlay {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.video-container.playing:hover .video-overlay {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .video-overlay {
@@ -972,7 +992,7 @@ nav.scrolled {
   justify-content: center;
   align-items: center;
   gap: 20px;
-  transition: background 0.3s;
+  transition: background 0.3s, opacity 0.3s;
 }
 
 .video-container:hover .video-overlay {
@@ -1489,11 +1509,20 @@ footer {
 }
 
 .reveal-img {
-  clip-path: inset(0 100% 0 0);
-  transition: 1.4s var(--ease);
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 1.2s var(--ease), transform 1.2s var(--ease);
 }
+
+/* 僅在 JS 載入後才使用動畫 */
+.js-loaded .reveal-img:not(.visible) {
+  opacity: 0;
+  transform: translateX(-50px);
+}
+
 .reveal-img.visible {
-  clip-path: inset(0 0 0 0);
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .delay-1 {
@@ -1644,18 +1673,19 @@ footer {
     font-size: 0.85rem;
   }
   
-  /* 確保手機版動畫正常運作 */
-  .fade-in,
-  .fade-up,
-  .reveal-img {
-    transform: none !important;
+  /* 確保手機版動畫正常運作 - 縮小動畫距離讓手機更流暢 */
+  .fade-up {
+    transform: translateY(30px);
+  }
+  
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
   
   .fade-in.visible,
-  .fade-up.visible,
   .reveal-img.visible {
     opacity: 1;
-    transform: none !important;
   }
 
   /* Events */
